@@ -25,8 +25,8 @@ class WP_Attendance {
         define( 'WP_ATTENDANCE_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 
         // Include files
-        include('wp-attendance-functions.php');
-        include('admin/wp-attendance-settings.php');
+        include(WP_ATTENDANCE_DIR . '/wp-attendance-functions.php');
+        include(WP_ATTENDANCE_DIR . '/admin/wp-attendance-settings.php');
 
         // Activation hooks
         register_activation_hook(__FILE__, array($this, 'wp_attendance_activate'));
@@ -34,7 +34,7 @@ class WP_Attendance {
     }
 
     /**
-     * Create DB table for plugin
+     * Create DB table for attendance
      *
      * @return void
      */
@@ -58,11 +58,12 @@ class WP_Attendance {
 
     /**
      * Deactivation hook
+     * No actions to perform during deactivation.
      *
      * @return void
      */
     public function wp_attendance_deactivate() {
-        
+        // No actions needed during deactivation.
     }
     
 }

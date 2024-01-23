@@ -10,11 +10,21 @@ class WP_Attendance_Settings {
         add_action('admin_menu', array($this, 'wp_attendance_settings_menu'));
     }
 
+    /**
+     * Create seetings page menu
+     *
+     * @return void
+     */
     public function wp_attendance_settings_menu() {
         $menu_setting = __('Settings', 'wp-attendance');
         add_submenu_page('wp-attendance', $menu_setting, $menu_setting, 'manage_options', 'wp-attendance-settings', array($this, 'wp_attendance_settings'));
     }
 
+    /**
+     * Render settings page
+     *
+     * @return void
+     */
     public function wp_attendance_settings() {
         ?>
         <div class="wrap">
@@ -30,27 +40,47 @@ class WP_Attendance_Settings {
         <?php
     }
 
+    /**
+     * Register plugin settings
+     *
+     * @return void
+     */
     public function wp_attendance_register_settings() {
+        // Set default values if options don't exist
+        if (false === get_option('wp_attendance_enable_export')) {
+            add_option('wp_attendance_enable_export', 1);
+        }
+
+        // Register settings
         register_setting('wp_attendance_settings_group', 'wp_attendance_all_users_show');
         register_setting('wp_attendance_settings_group', 'wp_attendance_enable_export');
+        register_setting('wp_attendance_settings_group', 'wp_attendance_delete_data');
     
         // Add settings section and field
         add_settings_section('wp_attendance_main_section', '', '', 'wp_attendance_settings_page');
 
-        add_settings_field('wp_attendance_all_users_show', __('Show absent students in report', 'wp-attendance'), array($this, 'wp_attendance_show_users'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
-        add_settings_field('wp_attendance_enable_export', __('Export attendance report', 'wp-attendance'), array($this, 'wp_attendance_export_option'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
+        // Create setting fields
+        add_settings_field('wp_attendance_all_users_show', __('Show absent students in report', 'wp-attendance'), array($this, 'render_wp_attendance_show_users'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
+        add_settings_field('wp_attendance_enable_export', __('Export attendance report', 'wp-attendance'), array($this, 'render_wp_attendance_export_option'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
+        add_settings_field('wp_attendance_delete_data', __('Delete data on uninstall', 'wp-attendance'), array($this, 'render_wp_attendance_data_delete'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
     }
     
     // Field Show users
-    public function wp_attendance_show_users() {
+    public function render_wp_attendance_show_users() {
         $setting_value = get_option('wp_attendance_all_users_show');
         echo '<input type="checkbox" name="wp_attendance_all_users_show" value="1" ' . checked(1, $setting_value, false) . ' />';
     }
 
     // Field Export attendance
-    public function wp_attendance_export_option() {
+    public function render_wp_attendance_export_option() {
         $setting_value = get_option('wp_attendance_enable_export');
         echo '<input type="checkbox" name="wp_attendance_enable_export" value="1" ' . checked(1, $setting_value, false) . ' />';
+    }
+
+    // Field Delete data
+    public function render_wp_attendance_data_delete() {
+        $setting_value = get_option('wp_attendance_delete_data');
+        echo '<input type="checkbox" name="wp_attendance_delete_data" value="1" ' . checked(1, $setting_value, false) . ' />';
     }
 }
 
