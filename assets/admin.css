@@ -1,10 +1,23 @@
 :root {
-    --wp-attendance-primary: #231123;
-    --wp-attendance-secondary: #372554;
-    --wp-attendance-dark: #222222;
+    --wp-attendance-primary: #3d348b;
+    --wp-attendance-secondary: #231123;
     --wp-attendance-light: #EEEEEE;
 }
 
 .wp-attendance-table tbody tr:nth-child(even) {
     background-color: var(--wp-attendance-light);
+}
+
+.wp-attendance-container .button-primary {
+    background-color: var(--wp-attendance-primary);
+    border-color: var(--wp-attendance-secondary);
+}
+
+.wp-attendance-container .button-primary:hover {
+    background-color: var(--wp-attendance-secondary);
+    border-color: var(--wp-attendance-secondary);
+}
+
+.wp-attendance-table th {
+    font-weight: bold;
 }

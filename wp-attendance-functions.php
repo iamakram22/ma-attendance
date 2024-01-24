@@ -85,57 +85,57 @@ class WP_Attendance_Page {
 
         ?>
 
-        <!-- Date selector for attendance -->
-        <div class="wrap">
+        <div class="wrap wp-attendance-container">
             <h1><?php _e('Take Attendance', 'wp-attendance') ?></h1>
+            <!-- Date selector for attendance -->
             <form method="post">
                 <label for="attendance_date"><?php _e('Select Date:', 'wp-attendance') ?></label>
                 <input type="date" id="attendance_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
                 <input type="submit" name="select_date" class="button button-primary" value="<?php _e('Select Date', 'wp-attendance') ?>">
             </form>
-        </div>
 
-        <!-- Display attendance form -->
-        <div class="wrap wp-attendance-table-container">
-            <h2><?php _e('Take Attendance for', 'wp-attendance') . ' ' . date('j F Y', strtotime($selected_date)) ?> </h2>
-            <form method="post">
-                <table class="widefat wp-attendance-table">
-                    <thead>
-                        <tr>
-                            <th><?php _e('User ID', 'wp-attendance') ?></th>
-                            <th><?php _e('User Name', 'wp-attendance') ?></th>
-                            <th><?php _e('Full Name', 'wp-attendance') ?></th>
-                            <th><?php _e('Attendance', 'wp-attendance') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            foreach ($this->users as $user) {
-                                $user_id = $user->ID;
-                                if('subscriber' !== $user->roles[0]){
-                                    continue;
+            <!-- Display attendance form -->
+            <div class="wrap wp-attendance-table-container">
+                <h2><?php echo __('Take Attendance for', 'wp-attendance') . ' ' . date('j F Y', strtotime($selected_date)) ?></h2>
+                <form method="post">
+                    <table class="widefat wp-attendance-table">
+                        <thead>
+                            <tr>
+                                <th><?php _e('User ID', 'wp-attendance') ?></th>
+                                <th><?php _e('User Name', 'wp-attendance') ?></th>
+                                <th><?php _e('Full Name', 'wp-attendance') ?></th>
+                                <th><?php _e('Attendance', 'wp-attendance') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                foreach ($this->users as $user) {
+                                    $user_id = $user->ID;
+                                    if('subscriber' !== $user->roles[0]){
+                                        continue;
+                                    }
+                                    $user_name = $user->display_name;
+                                    $user_meta = get_userdata($user_id);
+                                    $full_name = $user_meta->first_name . ' ' . $user_meta->last_name;
+                                    $checked = isset($attendance_map[$user_id]) && $attendance_map[$user_id] === 'present' ? 'checked' : '';
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $user_id ?></td>
+                                        <td><?php echo $user_name ?></td>
+                                        <td><?php echo $full_name ?></td>
+                                        <td><input type='checkbox' name='user[<?php echo $user_id ?>]' value='present' <?php echo $checked ?> /></td>
+                                    </tr>
+                                    <?php
                                 }
-                                $user_name = $user->display_name;
-                                $user_meta = get_userdata($user_id);
-                                $full_name = $user_meta->first_name . ' ' . $user_meta->last_name;
-                                $checked = isset($attendance_map[$user_id]) && $attendance_map[$user_id] === 'present' ? 'checked' : '';
-                                ?>
-                                <tr>
-                                    <td><?php echo $user_id ?></td>
-                                    <td><?php echo $user_name ?></td>
-                                    <td><?php echo $full_name ?></td>
-                                    <td><input type='checkbox' name='user[<?php echo $user_id ?>]' value='present' <?php echo $checked ?> /></td>
-                                </tr>
-                                <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
-                <input type="hidden" id="selected_date" name="selected_date" value="<?php echo $selected_date ?>" />
-                <br/>
-                <input type="submit" name="submit_attendance" class="button button-primary" value="<?php _e('Submit Attendance', 'wp-attendance') ?>" />
-            </form>
-        </div>
+                            ?>
+                        </tbody>
+                    </table>
+                    <input type="hidden" id="selected_date" name="selected_date" value="<?php echo $selected_date ?>" />
+                    <br/>
+                    <input type="submit" name="submit_attendance" class="button button-primary" value="<?php _e('Submit Attendance', 'wp-attendance') ?>" />
+                </form>
+            </div>
+        </div> <!-- .wp-attendance-container -->
         <?php
     }
 
@@ -152,131 +152,134 @@ class WP_Attendance_Page {
         $export = get_option('wp_attendance_enable_export');
         ?>
 
-        <div class="wrap">
-        <h1><?php _e('Attendance Report', 'wp-attendance') ?></h1>
+        <div class="wrap wp-attendance-container">
+            <h1><?php _e('Attendance Report', 'wp-attendance') ?></h1>
 
-        <!-- Date filter for attendance report -->
-        <form method="post">
-            <label for="report_date"><?php _e('Select Date', 'wp-attendance') ?>:</label>
-            <input type="date" id="report_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
-            <input type="submit" name="get_report" class="button button-primary" value="<?php _e('Get Report', 'wp-attendance') ?>">
-        </form>
-        <br />
-        <?php
+            <!-- Date filter for attendance report -->
+            <form method="post">
+                <label for="report_date"><?php _e('Select Date', 'wp-attendance') ?>:</label>
+                <input type="date" id="report_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
+                <input type="submit" name="get_report" class="button button-primary" value="<?php _e('Get Report', 'wp-attendance') ?>">
+            </form>
+            <br />
+            <?php
 
-        // Fetch attendance data for selected date
-        $attendance_date = date('Y-m-d', strtotime($selected_date));
-        $results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT * FROM {$wpdb->prefix}wp_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
-                $attendance_date
-            )
-        );
-        $show_users = get_option( 'wp_attendance_all_users_show', 0 );
+            // Fetch attendance data for selected date
+            $attendance_date = date('Y-m-d', strtotime($selected_date));
+            $results = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT * FROM {$wpdb->prefix}wp_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
+                    $attendance_date
+                )
+            );
+            $show_users = get_option( 'wp_attendance_all_users_show', 0 );
 
-        // Attendance table
-        if(!$show_users){
-            if ($results) {
-                ?>
-                <table class="widefat">
-                    <thead>
-                        <tr>
-                            <th><?php _e('User ID', 'wp-attendance') ?></th>
-                            <th><?php _e('Username', 'wp-attendance') ?></th>
-                            <th><?php _e('Full Name', 'wp-attendance') ?></th>
-                            <th><?php _e('Status', 'wp-attendance') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($results as $row) {
-                            $user_id = $row->user_id;
-                            $user_info = get_userdata($user_id);
-                            $user_name = $user_info->user_login;
-                            $user_meta = get_userdata($user_id);
-                            $full_name = $user_meta->first_name . ' ' . $user_meta->last_name;
-                            ?>
+            // Attendance table
+            if(!$show_users){
+                if ($results) {
+                    ?>
+                    <table class="widefat">
+                        <thead>
                             <tr>
-                                <td><?php echo $user_id ?></td>
-                                <td><?php echo $user_name ?></td>
-                                <td><?php echo $full_name ?></td>
-                                <td><?php echo $row->status ?></td>
+                                <th><?php _e('User ID', 'wp-attendance') ?></th>
+                                <th><?php _e('Username', 'wp-attendance') ?></th>
+                                <th><?php _e('Full Name', 'wp-attendance') ?></th>
+                                <th><?php _e('Status', 'wp-attendance') ?></th>
                             </tr>
+                        </thead>
+                        <tbody>
                             <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
-                <?php
-                /**
-                 * Add export button if enabled in setting
-                 */
-                if($export) {
-                    include(WP_ATTENDANCE_DIR . '/templates/export-button.php');
-                }
-            } else {
-                echo '<p>' . __('No attendance records found for selected date', 'wp-attendance') . '.</p>';
-            }
-        }
-        else {
-            if ($results) {
-                // store list of users with attendance status
-                $attendance_status = array();
-                foreach ($results as $row) {
-                    $attendance_status[$row->user_id] = $row->status;
-                }
-                ?>
-                <table class="widefat">
-                    <thead>
-                        <tr>
-                            <th><?php _e('User ID', 'wp-attendance') ?></th>
-                            <th><?php _e('Username', 'wp-attendance') ?></th>
-                            <th><?php _e('Full Name', 'wp-attendance') ?></th>
-                            <th><?php _e('Status', 'wp-attendance') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($this->users as $user) {
-                            $user_id = $user->ID;
-                            if('subscriber' !== $user->roles[0]){
-                                continue;
+                            foreach ($results as $row) {
+                                $user_id = $row->user_id;
+                                $user_info = get_userdata($user_id);
+                                $user_name = $user_info->user_login;
+                                $user_meta = get_userdata($user_id);
+                                $full_name = $user_meta->first_name . ' ' . $user_meta->last_name;
+                                ?>
+                                <tr>
+                                    <td><?php echo $user_id ?></td>
+                                    <td><?php echo $user_name ?></td>
+                                    <td><?php echo $full_name ?></td>
+                                    <td><?php echo $row->status ?></td>
+                                </tr>
+                                <?php
                             }
-                            $user_info = get_userdata($user_id);
-                            $user_name = $user_info->user_login;
-                            $full_name = $user_info->first_name . ' ' . $user_info->last_name;
-
-                            // Check if user has attendance record for the selected date
-                            $status = isset($attendance_status[$user_id]) ? $attendance_status[$user_id] : 'absent';
                             ?>
-                            <tr>
-                                <td><?php echo $user_id ?></td>
-                                <td><?php echo $user_name ?></td>
-                                <td><?php echo $full_name ?></td>
-                                <td><?php echo $status ?></td>
-                            </tr>
-                        <?php }
-                        ?>
-                    </tbody>
-                </table>
-                <?php
-                /**
-                 * Add export button if enabled in setting
-                 */
-                if($export) {
-                    include(WP_ATTENDANCE_DIR . '/templates/export-button.php');
+                        </tbody>
+                    </table>
+                    <?php
+                    /**
+                     * Add export button if enabled in setting
+                     */
+                    if($export) {
+                        include(WP_ATTENDANCE_DIR . '/templates/export-button.php');
+                    }
+                } else {
+                    echo '<p>' . __('No attendance records found for selected date', 'wp-attendance') . '.</p>';
                 }
-            } else {
-                echo '<p>' . __('No attendance records found for selected date', 'wp-attendance') . '.</p>';
             }
-        }
+            else {
+                if ($results) {
+                    // store list of users with attendance status
+                    $attendance_status = array();
+                    foreach ($results as $row) {
+                        $attendance_status[$row->user_id] = $row->status;
+                    }
+                    ?>
+                    <table class="widefat">
+                        <thead>
+                            <tr>
+                                <th><?php _e('User ID', 'wp-attendance') ?></th>
+                                <th><?php _e('Username', 'wp-attendance') ?></th>
+                                <th><?php _e('Full Name', 'wp-attendance') ?></th>
+                                <th><?php _e('Status', 'wp-attendance') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($this->users as $user) {
+                                $user_id = $user->ID;
+                                if('subscriber' !== $user->roles[0]){
+                                    continue;
+                                }
+                                $user_info = get_userdata($user_id);
+                                $user_name = $user_info->user_login;
+                                $full_name = $user_info->first_name . ' ' . $user_info->last_name;
 
-        /**
-         * Export attendance to csv file
-         */
-        if ($export) {
-            include(WP_ATTENDANCE_DIR . '/templates/export-report.php');
-        }
+                                // Check if user has attendance record for the selected date
+                                $status = isset($attendance_status[$user_id]) ? $attendance_status[$user_id] : 'absent';
+                                ?>
+                                <tr>
+                                    <td><?php echo $user_id ?></td>
+                                    <td><?php echo $user_name ?></td>
+                                    <td><?php echo $full_name ?></td>
+                                    <td><?php echo $status ?></td>
+                                </tr>
+                            <?php }
+                            ?>
+                        </tbody>
+                    </table>
+                    <?php
+                    /**
+                     * Add export button if enabled in setting
+                     */
+                    if($export) {
+                        include(WP_ATTENDANCE_DIR . '/templates/export-button.php');
+                    }
+                } else {
+                    echo '<p>' . __('No attendance records found for selected date', 'wp-attendance') . '.</p>';
+                }
+            }
+
+            /**
+             * Export attendance to csv file
+             */
+            if ($export) {
+                include(WP_ATTENDANCE_DIR . '/templates/export-report.php');
+            }
+            ?>
+        </div> <!-- .wp-attendance-wrap -->
+        <?php
     }
 }
 

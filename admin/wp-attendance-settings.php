@@ -29,7 +29,7 @@ class WP_Attendance_Settings {
      */
     public function wp_attendance_settings() {
         ?>
-        <div class="wrap">
+        <div class="wrap wp-attendance-container">
             <h1><?php _e('WP Attendance Settings', 'wp-attendane') ?></h1>
             <form method="post" action="options.php">
                 <?php

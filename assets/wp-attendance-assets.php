@@ -8,7 +8,13 @@ class WP_Attendance_Assets {
     public function admin_enqueue_scripts() {
         // Enqueue stylesheet only on WP Attendance pages
         $screen = get_current_screen();
-        if ($screen && $screen->id === 'toplevel_page_wp-attendance' || $screen->id === 'wp-attendance_page_wp-attendance-report') {
+        $prefix = 'wp-attendance_page_wp-attendance-';
+        $wp_attendance_pages = array(
+            'toplevel_page_wp-attendance',
+            $prefix . 'report',
+            $prefix . 'settings'
+        );
+        if ($screen && in_array($screen->id, $wp_attendance_pages)) {
             wp_enqueue_style( 'wp-attendance-admin-css', WP_ATTENDANCE_URL . '/assets/admin.css' );
         }
     }
