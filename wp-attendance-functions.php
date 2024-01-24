@@ -120,14 +120,14 @@ class WP_Attendance_Page {
                                         continue;
                                     }
 
-                                    $user_name = $user->display_name;
+                                    $username = $user->user_login;
                                     $user_meta = get_userdata($user_id);
                                     $full_name = $user_meta->first_name . ' ' . $user_meta->last_name;
                                     $checked = isset($attendance_map[$user_id]) && $attendance_map[$user_id] === 'present' ? 'checked' : '';
                                     ?>
                                     <tr>
                                         <td><?php echo $user_id ?></td>
-                                        <td><?php echo $user_name ?></td>
+                                        <td><?php echo $username ?></td>
                                         <td><?php echo $full_name ?></td>
                                         <td><input type='checkbox' name='user[<?php echo $user_id ?>]' value='present' <?php echo $checked ?> /></td>
                                     </tr>
