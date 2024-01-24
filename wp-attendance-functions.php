@@ -94,10 +94,10 @@ class WP_Attendance_Page {
         </div>
 
         <!-- Display attendance form -->
-        <div class="wrap">
+        <div class="wrap wp-attendance-table-container">
             <h2><?php _e('Take Attendance for', 'wp-attendance') . ' ' . date('j F Y', strtotime($selected_date)) ?> </h2>
             <form method="post">
-                <table class="widefat">
+                <table class="widefat wp-attendance-table">
                     <thead>
                         <tr>
                             <th><?php _e('User ID', 'wp-attendance') ?></th>

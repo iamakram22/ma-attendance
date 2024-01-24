@@ -1,0 +1,10 @@
+:root {
+    --wp-attendance-primary: #231123;
+    --wp-attendance-secondary: #372554;
+    --wp-attendance-dark: #222222;
+    --wp-attendance-light: #EEEEEE;
+}
+
+.wp-attendance-table tbody tr:nth-child(even) {
+    background-color: var(--wp-attendance-light);
+}

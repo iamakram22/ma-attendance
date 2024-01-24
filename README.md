@@ -11,8 +11,9 @@
 ## Details
 Version: 1.0.0 \
 Contributors: iamakram \
-Requires at least: 5.2 \
+Requires at least: 5.0 \
 Tested up to: 6.4.2 \
+Requires PHP: 7.3 \
 License: GNU General Public License v3.0 
 
 ## Installation
