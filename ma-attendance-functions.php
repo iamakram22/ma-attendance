@@ -3,29 +3,29 @@ if( !defined('ABSPATH') ) {
     exit;
 }
 
-class WP_Attendance_Page {
+class MA_Attendance_Page {
     
     private $users, $date, $export, $show_users;
 
     public function __construct() {
-        add_action('admin_menu', array($this, 'wp_attendance_menu'));
+        add_action('admin_menu', array($this, 'ma_attendance_menu'));
         $this->users = get_users();
         $this->date = date('Y-m-d');
-        $this->export = get_option('wp_attendance_enable_export');
-        $this->show_users = get_option('wp_attendance_enable_export', 0);
+        $this->export = get_option('ma_attendance_enable_export');
+        $this->show_users = get_option('ma_attendance_all_users_show', 0);
     }
 
     /**
-     * Add WP Attendance menu in dashboard
+     * Add MA Attendance menu in dashboard
      *
      * @since 1.0.0
      * @return void
      */
-    public function wp_attendance_menu() {
-        $menu_name = __('WP Attendance', WP_ATTENDANCE_DOMAIN);
-        $menu_report = __('Attendance Report', WP_ATTENDANCE_DOMAIN);
-        add_menu_page($menu_name, $menu_name, 'manage_options', WP_ATTENDANCE_DOMAIN, array($this, 'wp_attendance_page'), 'dashicons-list-view', 2);
-        add_submenu_page(WP_ATTENDANCE_DOMAIN, $menu_report, $menu_report, 'manage_options', 'wp-attendance-report', array($this, 'wp_attendance_report'));
+    public function ma_attendance_menu() {
+        $menu_name = __('MA Attendance', MA_ATTENDANCE_DOMAIN);
+        $menu_report = __('Attendance Report', MA_ATTENDANCE_DOMAIN);
+        add_menu_page($menu_name, $menu_name, 'manage_options', MA_ATTENDANCE_DOMAIN, array($this, 'ma_attendance_page'), 'dashicons-list-view', 2);
+        add_submenu_page(MA_ATTENDANCE_DOMAIN, $menu_report, $menu_report, 'manage_options', 'ma-attendance-report', array($this, 'ma_attendance_report'));
     }
 
     /**
@@ -34,7 +34,7 @@ class WP_Attendance_Page {
      * @since 1.0.0
      * @return void
      */
-    public function wp_attendance_page() {
+    public function ma_attendance_page() {
         global $wpdb;
 
         // Handle attendance submission
@@ -47,7 +47,7 @@ class WP_Attendance_Page {
             // Check if attendance already exists for the selected date and user IDs
             $existing_attendance = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT user_id FROM {$wpdb->prefix}wp_attendance WHERE user_id IN (%s) AND attendance_date = %s",
+                    "SELECT user_id FROM {$wpdb->prefix}ma_attendance WHERE user_id IN (%s) AND attendance_date = %s",
                     implode(',', $user_ids),
                     $selected_date
                 ), ARRAY_A
@@ -60,7 +60,7 @@ class WP_Attendance_Page {
                     // Save attendance only if it doesn't exist
                     $status = sanitize_text_field($users[$user_id]);
                     $wpdb->insert(
-                        $wpdb->prefix . 'wp_attendance',
+                        $wpdb->prefix . 'ma_attendance',
                         array(
                             'user_id' => $user_id,
                             'attendance_date' => $selected_date,
@@ -71,7 +71,7 @@ class WP_Attendance_Page {
                 }
             }
 
-            echo '<div class="updated"><p>' . __('Attendance marked for', WP_ATTENDANCE_DOMAIN) . ' ' . date('j F Y', strtotime($selected_date)) . '.</p></div>';
+            echo '<div class="updated"><p>' . __('Attendance marked for', MA_ATTENDANCE_DOMAIN) . ' ' . date('j F Y', strtotime($selected_date)) . '.</p></div>';
         }
 
         // Fetch attendance data for selected date
@@ -79,7 +79,7 @@ class WP_Attendance_Page {
         $attendance_date = date('Y-m-d', strtotime($selected_date));
         $today_attendance = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM {$wpdb->prefix}wp_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
+                "SELECT * FROM {$wpdb->prefix}ma_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
                 $attendance_date
             )
         );
@@ -87,26 +87,26 @@ class WP_Attendance_Page {
 
         ?>
 
-        <div class="wrap wp-attendance-container">
-            <h1><?php _e('Take Attendance', WP_ATTENDANCE_DOMAIN) ?></h1>
+        <div class="wrap ma-attendance-container">
+            <h1><?php _e('Take Attendance', MA_ATTENDANCE_DOMAIN) ?></h1>
             <!-- Date selector for attendance -->
             <form method="post">
-                <label for="attendance_date"><?php _e('Select Date:', WP_ATTENDANCE_DOMAIN) ?></label>
+                <label for="attendance_date"><?php _e('Select Date:', MA_ATTENDANCE_DOMAIN) ?></label>
                 <input type="date" id="attendance_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
-                <input type="submit" name="select_date" class="button button-primary" value="<?php _e('Select Date', WP_ATTENDANCE_DOMAIN) ?>">
+                <input type="submit" name="select_date" class="button button-primary" value="<?php _e('Select Date', MA_ATTENDANCE_DOMAIN) ?>">
             </form>
 
             <!-- Display attendance form -->
-            <div class="wrap wp-attendance-table-container">
-                <h2><?php echo __('Take Attendance for', WP_ATTENDANCE_DOMAIN) . ' ' . date('j F Y', strtotime($selected_date)) ?></h2>
+            <div class="wrap ma-attendance-table-container">
+                <h2><?php echo __('Take Attendance for', MA_ATTENDANCE_DOMAIN) . ' ' . date('j F Y', strtotime($selected_date)) ?></h2>
                 <form method="post">
-                    <table class="widefat wp-attendance-table">
+                    <table class="widefat ma-attendance-table">
                         <thead>
                             <tr>
-                                <th><?php _e('User ID', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('User Name', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Full Name', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Attendance', WP_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User ID', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User Name', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Full Name', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Attendance', MA_ATTENDANCE_DOMAIN) ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,7 +114,7 @@ class WP_Attendance_Page {
                                 foreach ($this->users as $user) {
                                     $user_id = $user->ID;
                                     $attendance_roles = array('subscriber');
-                                    apply_filters( 'wp_attendance_attendance_roles', $attendance_roles );
+                                    apply_filters( 'ma_attendance_hook_attendance_roles', $attendance_roles );
 
                                     if(!in_array($user->roles[0], $attendance_roles)) {
                                         continue;
@@ -138,10 +138,10 @@ class WP_Attendance_Page {
                     </table>
                     <input type="hidden" id="selected_date" name="selected_date" value="<?php echo $selected_date ?>" />
                     <br/>
-                    <input type="submit" name="submit_attendance" class="button button-primary" value="<?php _e('Submit Attendance', WP_ATTENDANCE_DOMAIN) ?>" />
+                    <input type="submit" name="submit_attendance" class="button button-primary" value="<?php _e('Submit Attendance', MA_ATTENDANCE_DOMAIN) ?>" />
                 </form>
             </div>
-        </div> <!-- .wp-attendance-container -->
+        </div> <!-- .ma-attendance-container -->
         <?php
     }
 
@@ -151,20 +151,20 @@ class WP_Attendance_Page {
      * @since 1.0.0
      * @return void
      */
-    public function wp_attendance_report() {
+    public function ma_attendance_report() {
         global $wpdb;
 
         $selected_date = isset($_POST['selected_date']) ? sanitize_text_field($_POST['selected_date']) : $this->date;
         ?>
 
-        <div class="wrap wp-attendance-container">
-            <h1><?php _e('Attendance Report', WP_ATTENDANCE_DOMAIN) ?></h1>
+        <div class="wrap ma-attendance-container">
+            <h1><?php _e('Attendance Report', MA_ATTENDANCE_DOMAIN) ?></h1>
 
             <!-- Date filter for attendance report -->
             <form method="post">
-                <label for="report_date"><?php _e('Select Date', WP_ATTENDANCE_DOMAIN) ?>:</label>
+                <label for="report_date"><?php _e('Select Date', MA_ATTENDANCE_DOMAIN) ?>:</label>
                 <input type="date" id="report_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
-                <input type="submit" name="get_report" class="button button-primary" value="<?php _e('Get Report', WP_ATTENDANCE_DOMAIN) ?>">
+                <input type="submit" name="get_report" class="button button-primary" value="<?php _e('Get Report', MA_ATTENDANCE_DOMAIN) ?>">
             </form>
             <br />
             <?php
@@ -173,7 +173,7 @@ class WP_Attendance_Page {
             $attendance_date = date('Y-m-d', strtotime($selected_date));
             $results = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT * FROM {$wpdb->prefix}wp_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
+                    "SELECT * FROM {$wpdb->prefix}ma_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
                     $attendance_date
                 )
             );
@@ -182,13 +182,13 @@ class WP_Attendance_Page {
             if(!$this->show_users){
                 if ($results) {
                     ?>
-                    <table class="widefat">
+                    <table class="widefat ma-attendance-table">
                         <thead>
                             <tr>
-                                <th><?php _e('User ID', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Username', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Full Name', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Status', WP_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User ID', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Username', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Full Name', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Status', MA_ATTENDANCE_DOMAIN) ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -218,7 +218,7 @@ class WP_Attendance_Page {
                         $this->render_export_button($selected_date);
                     }
                 } else {
-                    echo '<p>' . __('No attendance records found for selected date', WP_ATTENDANCE_DOMAIN) . '.</p>';
+                    echo '<p>' . __('No attendance records found for selected date', MA_ATTENDANCE_DOMAIN) . '.</p>';
                 }
             }
             else {
@@ -229,13 +229,13 @@ class WP_Attendance_Page {
                         $attendance_status[$row->user_id] = $row->status;
                     }
                     ?>
-                    <table class="widefat">
+                    <table class="widefat ma-attendance-table">
                         <thead>
                             <tr>
-                                <th><?php _e('User ID', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Username', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Full Name', WP_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Status', WP_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User ID', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Username', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Full Name', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('Status', MA_ATTENDANCE_DOMAIN) ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -243,7 +243,7 @@ class WP_Attendance_Page {
                             foreach ($this->users as $user) {
                                 $user_id = $user->ID;
                                 $attendance_roles = array('subscriber');
-                                apply_filters( 'wp_attendance_attendance_roles', $attendance_roles );
+                                apply_filters( 'ma_attendance_hook_attendance_roles', $attendance_roles );
 
                                 if(!in_array($user->roles[0], $attendance_roles)) {
                                     continue;
@@ -274,7 +274,7 @@ class WP_Attendance_Page {
                         $this->render_export_button($selected_date);
                     }
                 } else {
-                    echo '<p>' . __('No attendance records found for selected date', WP_ATTENDANCE_DOMAIN) . '.</p>';
+                    echo '<p>' . __('No attendance records found for selected date', MA_ATTENDANCE_DOMAIN) . '.</p>';
                 }
             }
 
@@ -282,10 +282,10 @@ class WP_Attendance_Page {
              * Export attendance to csv file
              */
             if ($this->export) {
-                include(WP_ATTENDANCE_DIR . '/templates/export-report.php');
+                include(MA_ATTENDANCE_DIR . '/templates/export-report.php');
             }
             ?>
-        </div> <!-- .wp-attendance-wrap -->
+        </div> <!-- .ma-attendance-wrap -->
         <?php
     }
 
@@ -297,15 +297,15 @@ class WP_Attendance_Page {
      */
     public function render_export_button($selected_date) {
         ?>
-        <div class="wp-attendance-export-button-container">
+        <div class="ma-attendance-export-button-container">
             <form method="post">
                 <input type="hidden" name="export_attendance" value="1">
                 <input type="hidden" name="selected_date" value="<?php echo $selected_date ?>">
-                <input type="submit" name="export_button" class="button button-primary" value="<?php _e('Export Attendance', WP_ATTENDANCE_DOMAIN) ?>">
+                <input type="submit" name="export_button" class="button button-primary" value="<?php _e('Export Attendance', MA_ATTENDANCE_DOMAIN) ?>">
             </form>
         </div>
         <?php
     }
 }
 
-$wp_attendance_page = new WP_Attendance_Page();
+$ma_attendance_page = new MA_Attendance_Page();

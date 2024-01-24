@@ -1,6 +1,6 @@
-# WP Attendance
+# MA Attendance
 
-**WP Attendance** is a simple and effective plugin for taking daily attendance of users on your WordPress site. This plugin integrates seamlessly with your existing LMS, providing an easy way for administrators to mark attendance and generate comprehensive reports for students.
+**MA Attendance** is a simple and effective plugin for taking daily attendance of users on your WordPress site. This plugin integrates seamlessly with your existing LMS, providing an easy way for administrators to mark attendance and generate comprehensive reports for students.
 
 ![banner](/assets/banner-1544x500.png)
 
@@ -23,10 +23,10 @@ License: GNU General Public License v3.0
    - You can do this through FTP or by compressing the folder and uploading it via the WordPress Admin Panel under Plugins > Add New > Upload Plugin.
 
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-   - Once uploaded, find WP Attendance in the list of plugins and click "Activate."
+   - Once uploaded, find MA Attendance in the list of plugins and click "Activate."
 
 3. Configure plugin settings.
-   - Navigate to the 'WP Attendance' menu in the WordPress dashboard to configure settings such as whether to show absent students in the report or enable the export of attendance data.
+   - Navigate to the 'MA Attendance' menu in the WordPress dashboard to configure settings such as whether to show absent students in the report or enable the export of attendance data.
 
 4. Set up your daily attendance.
    - Visit the 'Take Attendance' page to mark attendance for your users. You can filter attendance by date and submit the form to record attendance.

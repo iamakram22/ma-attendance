@@ -1,32 +1,32 @@
 :root {
-    --wp-attendance-primary: #3d348b;
-    --wp-attendance-secondary: #231123;
-    --wp-attendance-light: #EEEEEE;
+    --ma-attendance-primary: #3d348b;
+    --ma-attendance-secondary: #231123;
+    --ma-attendance-light: #EEEEEE;
 }
 
-.wp-attendance-table tbody tr:nth-child(even) {
-    background-color: var(--wp-attendance-light);
+.ma-attendance-table tbody tr:nth-child(even) {
+    background-color: var(--ma-attendance-light);
 }
 
-.wp-attendance-container .button-primary {
-    background-color: var(--wp-attendance-primary);
-    border-color: var(--wp-attendance-secondary);
+.ma-attendance-container .button-primary {
+    background-color: var(--ma-attendance-primary);
+    border-color: var(--ma-attendance-secondary);
 }
 
-.wp-attendance-container .button-primary:hover {
-    background-color: var(--wp-attendance-secondary);
-    border-color: var(--wp-attendance-secondary);
+.ma-attendance-container .button-primary:hover {
+    background-color: var(--ma-attendance-secondary);
+    border-color: var(--ma-attendance-secondary);
 }
 
-.wp-attendance-container .button-primary:focus {
-    background-color: var(--wp-attendance-secondary);
-    border-color: var(--wp-attendance-secondary);
+.ma-attendance-container .button-primary:focus {
+    background-color: var(--ma-attendance-secondary);
+    border-color: var(--ma-attendance-secondary);
 }
 
-.wp-attendance-table th {
+.ma-attendance-table th {
     font-weight: bold;
 }
 
-.wp-attendance-export-button-container {
+.ma-attendance-export-button-container {
     margin-top: 20px;
 }

@@ -3,8 +3,8 @@
 // Check if data is set
 if(!$this->users) $this->users = get_users();
 if(!$this->date) $this->date = date('Y-m-d');
-if(!$this->export) $this->export = get_option('wp_attendance_enable_export');
-if(!$this->show_users) $this->show_users = get_option('wp_attendance_all_users_show', 0);
+if(!$this->export) $this->export = get_option('ma_attendance_enable_export');
+if(!$this->show_users) $this->show_users = get_option('ma_attendance_all_users_show', 0);
 
 $output = '';
 // Export attendance data if Export button is clicked
@@ -15,7 +15,7 @@ if (isset($_POST['export_attendance']) && $_POST['export_attendance'] == 1) {
     // Fetch attendance data
     $results = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT * FROM {$wpdb->prefix}wp_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
+            "SELECT * FROM {$wpdb->prefix}ma_attendance WHERE attendance_date = %s ORDER BY attendance_date DESC",
             $attendance_date
         )
     );
