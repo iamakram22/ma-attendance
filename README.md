@@ -2,6 +2,8 @@
 
 **WP Attendance** is a simple and effective plugin for taking daily attendance of users on your WordPress site. This plugin integrates seamlessly with your existing LMS, providing an easy way for administrators to mark attendance and generate comprehensive reports for students.
 
+![banner](/assets/banner-1544x500.png)
+
 **Key Features:**
 - Take daily attendance for registered users.
 - Integrate with your existing LMS on WordPress.
@@ -31,6 +33,11 @@ License: GNU General Public License v3.0
 
 5. Generate reports.
    - Explore the 'Attendance Report' page to view and export comprehensive attendance reports. Use date filters to analyze attendance for specific periods.
+  
+## Screenshots
+![Take Attendance](/assets/screenshots/Take%20Attendance.png)
+![Attendance Report](/assets/screenshots/View%20Report.png)
+![Plugin Settings](/assets/screenshots/Plugin%20Settings.png)
 
 ## Author
 - [Mohd Akram](https://www.github.com/iamakram22)
