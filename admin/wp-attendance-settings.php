@@ -13,6 +13,7 @@ class WP_Attendance_Settings {
     /**
      * Create seetings page menu
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_settings_menu() {
@@ -23,6 +24,7 @@ class WP_Attendance_Settings {
     /**
      * Render settings page
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_settings() {
@@ -43,6 +45,7 @@ class WP_Attendance_Settings {
     /**
      * Register plugin settings
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_register_settings() {

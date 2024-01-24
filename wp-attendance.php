@@ -38,6 +38,7 @@ class WP_Attendance {
     /**
      * Create DB table for attendance
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_activate() {
@@ -62,6 +63,7 @@ class WP_Attendance {
      * Deactivation hook
      * No actions to perform during deactivation.
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_deactivate() {

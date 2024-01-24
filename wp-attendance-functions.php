@@ -16,6 +16,7 @@ class WP_Attendance_Page {
     /**
      * Add WP Attendance menu in dashboard
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_menu() {
@@ -28,6 +29,7 @@ class WP_Attendance_Page {
     /**
      * Render Attendance page
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_page() {
@@ -140,6 +142,7 @@ class WP_Attendance_Page {
     /**
      * Render Attendance report page
      *
+     * @since 1.0.0
      * @return void
      */
     public function wp_attendance_report() {
