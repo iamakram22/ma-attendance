@@ -15,7 +15,7 @@ class WP_Attendance_Assets {
             $prefix . 'settings'
         );
         if ($screen && in_array($screen->id, $wp_attendance_pages)) {
-            wp_enqueue_style( 'wp-attendance-admin-css', WP_ATTENDANCE_URL . '/assets/admin.css' );
+            wp_enqueue_style( 'wp-attendance-admin-css', WP_ATTENDANCE_URL . '/assets/admin.css', array(), WP_ATTENDANCE_VERSION );
         }
     }
 }

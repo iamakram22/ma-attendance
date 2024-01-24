@@ -11,12 +11,16 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 == Description ==
 WP Attendance is a simple and effective plugin for taking daily attendance of users on your WordPress site. This plugin integrates seamlessly with your existing LMS, providing an easy way for administrators to mark attendance and generate comprehensive reports for students.
 
+= Available Hooks =
+- `wp_attendance_attendance_roles` : add more roles to the attendance. default `subscriber`
+
 == Installation ==
 1. Upload the `wp-attendance` folder to the `/wp-content/plugins/` directory or upload in the WordPress plugin installation page.
 2. Activate the plugin through the \'Plugins\' menu in WordPress.
 3. Configure plugin settings.
 4. Take your daily attendance.
 5. Generate reports.
+
 
 == Frequently Asked Questions ==
 

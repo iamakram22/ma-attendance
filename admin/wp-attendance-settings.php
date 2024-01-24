@@ -11,14 +11,14 @@ class WP_Attendance_Settings {
     }
 
     /**
-     * Create seetings page menu
+     * Create settings page menu
      *
      * @since 1.0.0
      * @return void
      */
     public function wp_attendance_settings_menu() {
-        $menu_setting = __('Settings', 'wp-attendance');
-        add_submenu_page('wp-attendance', $menu_setting, $menu_setting, 'manage_options', 'wp-attendance-settings', array($this, 'wp_attendance_settings'));
+        $menu_setting = __('Settings', WP_ATTENDANCE_DOMAIN);
+        add_submenu_page(WP_ATTENDANCE_DOMAIN, $menu_setting, $menu_setting, 'manage_options', 'wp-attendance-settings', array($this, 'wp_attendance_settings'));
     }
 
     /**
@@ -30,7 +30,7 @@ class WP_Attendance_Settings {
     public function wp_attendance_settings() {
         ?>
         <div class="wrap wp-attendance-container">
-            <h1><?php _e('WP Attendance Settings', 'wp-attendane') ?></h1>
+            <h1><?php _e('WP Attendance Settings', WP_ATTENDANCE_DOMAIN) ?></h1>
             <form method="post" action="options.php">
                 <?php
                 settings_fields('wp_attendance_settings_group');
@@ -63,9 +63,9 @@ class WP_Attendance_Settings {
         add_settings_section('wp_attendance_main_section', '', '', 'wp_attendance_settings_page');
 
         // Create setting fields
-        add_settings_field('wp_attendance_all_users_show', __('Show absent students in report', 'wp-attendance'), array($this, 'render_wp_attendance_show_users'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
-        add_settings_field('wp_attendance_enable_export', __('Export attendance report', 'wp-attendance'), array($this, 'render_wp_attendance_export_option'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
-        add_settings_field('wp_attendance_delete_data', __('Delete data on uninstall', 'wp-attendance'), array($this, 'render_wp_attendance_data_delete'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
+        add_settings_field('wp_attendance_all_users_show', __('Show absent students in report', WP_ATTENDANCE_DOMAIN), array($this, 'render_wp_attendance_show_users'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
+        add_settings_field('wp_attendance_enable_export', __('Export attendance report', WP_ATTENDANCE_DOMAIN), array($this, 'render_wp_attendance_export_option'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
+        add_settings_field('wp_attendance_delete_data', __('Delete data on uninstall', WP_ATTENDANCE_DOMAIN), array($this, 'render_wp_attendance_data_delete'), 'wp_attendance_settings_page', 'wp_attendance_main_section');
     }
     
     // Field Show users

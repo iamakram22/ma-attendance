@@ -3,6 +3,8 @@
 // Check if data is set
 if(!$this->users) $this->users = get_users();
 if(!$this->date) $this->date = date('Y-m-d');
+if(!$this->export) $this->export = get_option('wp_attendance_enable_export');
+if(!$this->show_users) $this->show_users = get_option('wp_attendance_all_users_show', 0);
 
 $output = '';
 // Export attendance data if Export button is clicked
@@ -40,7 +42,7 @@ if (isset($_POST['export_attendance']) && $_POST['export_attendance'] == 1) {
         /**
          * Render attendance data for file export
          */
-        if (!$show_users) {
+        if (!$this->show_users) {
 
             foreach ($results as $row) {
                 $user_info = get_userdata($row->user_id);

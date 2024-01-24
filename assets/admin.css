@@ -18,6 +18,15 @@
     border-color: var(--wp-attendance-secondary);
 }
 
+.wp-attendance-container .button-primary:focus {
+    background-color: var(--wp-attendance-secondary);
+    border-color: var(--wp-attendance-secondary);
+}
+
 .wp-attendance-table th {
     font-weight: bold;
+}
+
+.wp-attendance-export-button-container {
+    margin-top: 20px;
 }

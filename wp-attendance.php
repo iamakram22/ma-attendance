@@ -24,6 +24,7 @@ class WP_Attendance {
         define( 'WP_ATTENDANCE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
         define( 'WP_ATTENDANCE_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
         define( 'WP_ATTENDANCE_VERSION', '1.0.0' );
+        define( 'WP_ATTENDANCE_DOMAIN', 'wp-attendance' );
 
         // Include files
         include(WP_ATTENDANCE_DIR . '/wp-attendance-functions.php');
