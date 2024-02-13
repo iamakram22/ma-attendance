@@ -7,7 +7,7 @@
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Mohd Akram
- * Author URI:        https://iamakram.com
+ * Author URI:        https://github.com/iamakram22
  * License:           GPL v3 or later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.en.html
  * Text Domain:       ma-attendance
