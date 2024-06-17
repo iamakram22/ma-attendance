@@ -17,8 +17,8 @@ class MA_Attendance_Settings {
      * @return void
      */
     public function ma_attendance_settings_menu() {
-        $menu_setting = __('Settings', MA_ATTENDANCE_DOMAIN);
-        add_submenu_page(MA_ATTENDANCE_DOMAIN, $menu_setting, $menu_setting, 'manage_options', 'ma-attendance-settings', array($this, 'ma_attendance_settings'));
+        $menu_setting = __('Settings', 'ma-attendance');
+        add_submenu_page('ma-attendance', $menu_setting, $menu_setting, 'manage_options', 'ma-attendance-settings', array($this, 'ma_attendance_settings'));
     }
 
     /**
@@ -30,7 +30,7 @@ class MA_Attendance_Settings {
     public function ma_attendance_settings() {
         ?>
         <div class="wrap ma-attendance-container">
-            <h1><?php _e('MA Attendance Settings', MA_ATTENDANCE_DOMAIN) ?></h1>
+            <h1><?php _e('MA Attendance Settings', 'ma-attendance') ?></h1>
             <form method="post" action="options.php">
                 <?php
                 settings_fields('ma_attendance_settings_group');
@@ -63,9 +63,9 @@ class MA_Attendance_Settings {
         add_settings_section('ma_attendance_main_section', '', '', 'ma_attendance_settings_page');
 
         // Create setting fields
-        add_settings_field('ma_attendance_all_users_show', __('Show absent students in report', MA_ATTENDANCE_DOMAIN), array($this, 'render_ma_attendance_all_users_show'), 'ma_attendance_settings_page', 'ma_attendance_main_section');
-        add_settings_field('ma_attendance_enable_export', __('Export attendance report', MA_ATTENDANCE_DOMAIN), array($this, 'render_ma_attendance_enable_export'), 'ma_attendance_settings_page', 'ma_attendance_main_section');
-        add_settings_field('ma_attendance_delete_data', __('Delete data on uninstall', MA_ATTENDANCE_DOMAIN), array($this, 'render_ma_attendance_delete_data'), 'ma_attendance_settings_page', 'ma_attendance_main_section');
+        add_settings_field('ma_attendance_all_users_show', __('Show absent students in report', 'ma-attendance'), array($this, 'render_ma_attendance_all_users_show'), 'ma_attendance_settings_page', 'ma_attendance_main_section');
+        add_settings_field('ma_attendance_enable_export', __('Export attendance report', 'ma-attendance'), array($this, 'render_ma_attendance_enable_export'), 'ma_attendance_settings_page', 'ma_attendance_main_section');
+        add_settings_field('ma_attendance_delete_data', __('Delete data on uninstall', 'ma-attendance'), array($this, 'render_ma_attendance_delete_data'), 'ma_attendance_settings_page', 'ma_attendance_main_section');
     }
     
     // Field Show users

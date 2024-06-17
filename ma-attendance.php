@@ -24,7 +24,6 @@ class MA_Attendance {
         define( 'MA_ATTENDANCE_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
         define( 'MA_ATTENDANCE_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
         define( 'MA_ATTENDANCE_VERSION', '1.0.0' );
-        define( 'MA_ATTENDANCE_DOMAIN', 'ma-attendance' );
 
         // Include files
         include(MA_ATTENDANCE_DIR . '/ma-attendance-functions.php');
@@ -32,8 +31,8 @@ class MA_Attendance {
         include(MA_ATTENDANCE_DIR . '/assets/ma-attendance-assets.php');
 
         // Activation hooks
-        register_activation_hook(__FILE__, array($this, 'MA_ATTENDANCE_activate'));
-        register_deactivation_hook(__FILE__, array($this, 'MA_ATTENDANCE_deactivate'));
+        register_activation_hook(__FILE__, array($this, 'ma_attendance_activate'));
+        register_deactivation_hook(__FILE__, array($this, 'ma_attendance_deactivate'));
     }
 
     /**

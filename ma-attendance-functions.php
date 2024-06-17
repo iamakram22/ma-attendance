@@ -22,10 +22,10 @@ class MA_Attendance_Page {
      * @return void
      */
     public function ma_attendance_menu() {
-        $menu_name = __('MA Attendance', MA_ATTENDANCE_DOMAIN);
-        $menu_report = __('Attendance Report', MA_ATTENDANCE_DOMAIN);
-        add_menu_page($menu_name, $menu_name, 'manage_options', MA_ATTENDANCE_DOMAIN, array($this, 'ma_attendance_page'), 'dashicons-list-view', 2);
-        add_submenu_page(MA_ATTENDANCE_DOMAIN, $menu_report, $menu_report, 'manage_options', 'ma-attendance-report', array($this, 'ma_attendance_report'));
+        $menu_name = __('MA Attendance', 'ma-attendance');
+        $menu_report = __('Attendance Report', 'ma-attendance');
+        add_menu_page($menu_name, $menu_name, 'manage_options', 'ma-attendance', array($this, 'ma_attendance_page'), 'dashicons-list-view', 2);
+        add_submenu_page('ma-attendance', $menu_report, $menu_report, 'manage_options', 'ma-attendance-report', array($this, 'ma_attendance_report'));
     }
 
     /**
@@ -71,7 +71,7 @@ class MA_Attendance_Page {
                 }
             }
 
-            echo '<div class="updated"><p>' . __('Attendance marked for', MA_ATTENDANCE_DOMAIN) . ' ' . date('j F Y', strtotime($selected_date)) . '.</p></div>';
+            echo '<div class="updated"><p>' . __('Attendance marked for', 'ma-attendance') . ' ' . date('j F Y', strtotime($selected_date)) . '.</p></div>';
         }
 
         // Fetch attendance data for selected date
@@ -88,25 +88,25 @@ class MA_Attendance_Page {
         ?>
 
         <div class="wrap ma-attendance-container">
-            <h1><?php _e('Take Attendance', MA_ATTENDANCE_DOMAIN) ?></h1>
+            <h1><?php _e('Take Attendance', 'ma-attendance') ?></h1>
             <!-- Date selector for attendance -->
             <form method="post">
-                <label for="attendance_date"><?php _e('Select Date:', MA_ATTENDANCE_DOMAIN) ?></label>
+                <label for="attendance_date"><?php _e('Select Date:', 'ma-attendance') ?></label>
                 <input type="date" id="attendance_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
-                <input type="submit" name="select_date" class="button button-primary" value="<?php _e('Select Date', MA_ATTENDANCE_DOMAIN) ?>">
+                <input type="submit" name="select_date" class="button button-primary" value="<?php _e('Select Date', 'ma-attendance') ?>">
             </form>
 
             <!-- Display attendance form -->
             <div class="wrap ma-attendance-table-container">
-                <h2><?php echo __('Take Attendance for', MA_ATTENDANCE_DOMAIN) . ' ' . date('j F Y', strtotime($selected_date)) ?></h2>
+                <h2><?php echo __('Take Attendance for', 'ma-attendance') . ' ' . date('j F Y', strtotime($selected_date)) ?></h2>
                 <form method="post">
                     <table class="widefat ma-attendance-table">
                         <thead>
                             <tr>
-                                <th><?php _e('User ID', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('User Name', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Full Name', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Attendance', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User ID', 'ma-attendance') ?></th>
+                                <th><?php _e('User Name', 'ma-attendance') ?></th>
+                                <th><?php _e('Full Name', 'ma-attendance') ?></th>
+                                <th><?php _e('Attendance', 'ma-attendance') ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +138,7 @@ class MA_Attendance_Page {
                     </table>
                     <input type="hidden" id="selected_date" name="selected_date" value="<?php echo $selected_date ?>" />
                     <br/>
-                    <input type="submit" name="submit_attendance" class="button button-primary" value="<?php _e('Submit Attendance', MA_ATTENDANCE_DOMAIN) ?>" />
+                    <input type="submit" name="submit_attendance" class="button button-primary" value="<?php _e('Submit Attendance', 'ma-attendance') ?>" />
                 </form>
             </div>
         </div> <!-- .ma-attendance-container -->
@@ -158,13 +158,13 @@ class MA_Attendance_Page {
         ?>
 
         <div class="wrap ma-attendance-container">
-            <h1><?php _e('Attendance Report', MA_ATTENDANCE_DOMAIN) ?></h1>
+            <h1><?php _e('Attendance Report', 'ma-attendance') ?></h1>
 
             <!-- Date filter for attendance report -->
             <form method="post">
-                <label for="report_date"><?php _e('Select Date', MA_ATTENDANCE_DOMAIN) ?>:</label>
+                <label for="report_date"><?php _e('Select Date', 'ma-attendance') ?>:</label>
                 <input type="date" id="report_date" name="selected_date" value="<?php echo $selected_date ?>" max="<?php echo $this->date ?>">
-                <input type="submit" name="get_report" class="button button-primary" value="<?php _e('Get Report', MA_ATTENDANCE_DOMAIN) ?>">
+                <input type="submit" name="get_report" class="button button-primary" value="<?php _e('Get Report', 'ma-attendance') ?>">
             </form>
             <br />
             <?php
@@ -185,10 +185,10 @@ class MA_Attendance_Page {
                     <table class="widefat ma-attendance-table">
                         <thead>
                             <tr>
-                                <th><?php _e('User ID', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Username', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Full Name', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Status', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User ID', 'ma-attendance') ?></th>
+                                <th><?php _e('Username', 'ma-attendance') ?></th>
+                                <th><?php _e('Full Name', 'ma-attendance') ?></th>
+                                <th><?php _e('Status', 'ma-attendance') ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -218,7 +218,7 @@ class MA_Attendance_Page {
                         $this->render_export_button($selected_date);
                     }
                 } else {
-                    echo '<p>' . __('No attendance records found for selected date', MA_ATTENDANCE_DOMAIN) . '.</p>';
+                    echo '<p>' . __('No attendance records found for selected date', 'ma-attendance') . '.</p>';
                 }
             }
             else {
@@ -232,10 +232,10 @@ class MA_Attendance_Page {
                     <table class="widefat ma-attendance-table">
                         <thead>
                             <tr>
-                                <th><?php _e('User ID', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Username', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Full Name', MA_ATTENDANCE_DOMAIN) ?></th>
-                                <th><?php _e('Status', MA_ATTENDANCE_DOMAIN) ?></th>
+                                <th><?php _e('User ID', 'ma-attendance') ?></th>
+                                <th><?php _e('Username', 'ma-attendance') ?></th>
+                                <th><?php _e('Full Name', 'ma-attendance') ?></th>
+                                <th><?php _e('Status', 'ma-attendance') ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -274,7 +274,7 @@ class MA_Attendance_Page {
                         $this->render_export_button($selected_date);
                     }
                 } else {
-                    echo '<p>' . __('No attendance records found for selected date', MA_ATTENDANCE_DOMAIN) . '.</p>';
+                    echo '<p>' . __('No attendance records found for selected date', 'ma-attendance') . '.</p>';
                 }
             }
 
@@ -301,7 +301,7 @@ class MA_Attendance_Page {
             <form method="post">
                 <input type="hidden" name="export_attendance" value="1">
                 <input type="hidden" name="selected_date" value="<?php echo $selected_date ?>">
-                <input type="submit" name="export_button" class="button button-primary" value="<?php _e('Export Attendance', MA_ATTENDANCE_DOMAIN) ?>">
+                <input type="submit" name="export_button" class="button button-primary" value="<?php _e('Export Attendance', 'ma-attendance') ?>">
             </form>
         </div>
         <?php
